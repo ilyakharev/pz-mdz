@@ -34,11 +34,11 @@
       - Таблица `social_networks` - таблица социальных сетей.
         Состоит из `social_network_id` (`PRIMARY KEY`), `name`, `url`.
       - Таблица `rigistrations` хранит в себе регистрации пользователей во всех соц. сетях.
-      Столбцы: `rigistration_id` (PK),
+      Столбцы: `rigistration_id` (PK), `socical_network`, `phone`
       
       Можно создать таблицы данных следующими способами:
       - Через интерфейс:
-        - [ ]Слева выбрать базу данных
+        - [ ] Слева выбрать базу данных
         - [ ] В поле `Имя таблицы` ввести название и брыть необходимое количество стобов.
         - [ ] Заполнить столбы `Имя` и `Тип`. 
         Для создания PK необходимо нажать на чекбокс под `A_I`
@@ -60,7 +60,14 @@
         `user` INT NOT NULL,
       `phone` TEXT NOT NULL, PRIMARY KEY (`phone_id`)
       ) ENGINE = InnoDB;
+      ALTER TABLE `phones` ADD FOREIGN KEY (`user`) REFERENCES `users`(`user_id`) 
+      ON DELETE NO ACTION ON UPDATE NO ACTION;
       ```
+- [ ] Заполнить базу данных. 
+Заполнять в порядке: `users`, `phones`, `social_networks`, `rigistrations`
+- [ ] Создание тонкого клиента
+  - [ ] Запустить Visual Studio
+  - [ ]
 ## FAQ
 ### Как выполнить SQL запрос
 Сверху выбрать нажать на кнопку SQL, 
