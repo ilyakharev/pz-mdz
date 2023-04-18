@@ -45,7 +45,7 @@
         - [ ] Если необходимо создать зависимость
           - [ ] Зайти в структуру таблицы, перейти в вкладку `Связи`
           - [ ] В поле столбец выбрать столбец,
-          который ссылается к другой базе данных
+          который ссылается к таблица
           - [ ] В поле таблица выбрать ту таблицу,
           на которую будет ссылаться столбец
           - [ ] Выбрать PK той таблицы
@@ -95,7 +95,86 @@
        }
     }
     ```
-    - [ ] В начале файла доба
+    - [ ] В начале файла добавить `using MySql.Data;`
+      - [ ] В функции `main` добавить строки:
+        - [ ] Параметры подключения:
+        ```cs
+        string server   = "localhost"; // Адресс сервера
+        string database = "mzd";       // Используемая база данных
+        string user     = "root";      // Логин
+        string password = "mysql";     // Пароль
+        string connectionString = $"server={server};user={user};database={database};password={password};";
+        ```
+        - [ ] Подключение к базе данных:
+        ```cs
+        // создаём объект для подключения к БД
+        MySqlConnection conn = new MySqlConnection(connStr);
+        // устанавливаем соединение с БД
+        conn.Open();
+        ```
+        - [ ] Создаем константный запрос
+        ```cs
+        // создаем запрос с константой
+        string sql = "SELECT * FROM users;";
+        // объект для выполнения SQL-запроса
+        MySqlCommand command = new MySqlCommand(sql, conn);
+        // объект для чтения ответа сервера
+        MySqlDataReader reader = command.ExecuteReader();
+        // читаем результат построчно
+        while (reader.Read())
+        {
+        Console.WriteLine($"{reader[0].ToString().PadRight(3, ' ')}" +
+                 $" {reader[1].ToString().PadRight(20, ' ')}" +
+                 $" {reader[2].ToString().PadRight(20, ' ')}");
+        }
+        // закрываем reader
+        reader.Close(); 
+        ```
+        - [ ] Создаем запрос c переменной
+        ```cs
+        // создаем запрос с константой
+        string sql = "SELECT * FROM phones WHERE phones.user = @var_user;";
+        // объект для выполнения SQL-запроса
+        MySqlCommand command = new MySqlCommand(sql, conn);
+        // добавляем значение параметра
+        command.Parameters.AddWithValue("@var_user", 2);
+        // объект для чтения ответа сервера
+        MySqlDataReader reader = command.ExecuteReader();
+        // читаем результат построчно
+        while (reader.Read())
+        {
+        Console.WriteLine($"{reader[0].ToString().PadRight(3, ' ')}" +
+               $" {reader[1].ToString().PadRight(20, ' ')}");
+        }
+        // закрываем reader
+        reader.Close(); 
+        ```
+        - [ ] Создаем датасет запрос
+        ```cs
+        // объект для выполнения SQL-запроса
+        MySqlDataAdapter adr = new MySqlDataAdapter(sql, conn);
+        // добавляем значение параметра
+        adr.SelectCommand.Parameters.AddWithValue("@param", somevalue);
+        // заполнение dataset
+        DataTable dt = new DataTable();
+        adr.Fill(dt); 
+        //Вывод таблицы полученный через датасет
+        foreach (DataRow row in dt.Rows)
+        {
+            Console.WriteLine($"{row[column]}");
+        }
+        // закрываем dataset
+        adr.Dispose(); 
+        ```
+        - [ ] Закрыть соединение с сервером
+        ```cs
+        // закрываем соединение с БД
+        conn.Close();
+        ```
+        - Можно добавить `Console.ReadLine();` чтобы окно не закрывалось 
+  - [ ] Включить воображение и дописать код
+- [ ] Проверить работоспособность кода
+- [ ] Отправить отчет Витомского
 ## FAQ
 ### Как выполнить SQL запрос
 Сверху выбрать нажать на кнопку SQL, 
