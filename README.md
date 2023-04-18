@@ -34,7 +34,7 @@
       - Таблица `social_networks` - таблица социальных сетей.
         Состоит из `social_network_id` (`PRIMARY KEY`), `name`, `url`.
       - Таблица `rigistrations` хранит в себе регистрации пользователей во всех соц. сетях.
-      Столбцы: `rigistration_id` (PK), `socical_network`, `phone`
+      Столбцы: `rigistration_id` (PK), `socical_network`, `phone`, `username`
       
       Можно создать таблицы данных следующими способами:
       - Через интерфейс:
@@ -62,12 +62,40 @@
       ) ENGINE = InnoDB;
       ALTER TABLE `phones` ADD FOREIGN KEY (`user`) REFERENCES `users`(`user_id`) 
       ON DELETE NO ACTION ON UPDATE NO ACTION;
+      CREATE TABLE `mzd`.`social_networks` 
+      ( `social_network_id` INT NOT NULL AUTO_INCREMENT,
+        `name` TEXT NOT NULL, `url` TEXT NOT NULL,
+         PRIMARY KEY (`social_network_id`)
+      ) ENGINE = InnoDB;
       ```
 - [ ] Заполнить базу данных. 
 Заполнять в порядке: `users`, `phones`, `social_networks`, `rigistrations`
 - [ ] Создание тонкого клиента
   - [ ] Запустить Visual Studio
-  - [ ]
+  - [ ] Нажать Создание проекта
+  - [ ] Выбрать `Консольное приложение (.NET Framework)`
+  - [ ] В `Обозреватель решений` найти зависимости.
+  Нажать правой кнопкой на Ссылки/`Зависимости` 
+  и выбрать в списке `Управление пакетами NuGet`
+  - [ ] Переходим в Обзор и вбиваем в поиск `Mysql`
+  - [ ] Выбираем `Mysql.Data` от Oracle и нажимаем `Добавить пакеты` / `Установить`
+  - [ ] Открываем `Program.cs`, который сейчас выглядит примерно так
+    ```cs
+    using System;
+    using System.Data;
+    
+    namespace SqlExample
+    {
+       public class Program
+       {
+           static void Main()
+           {
+                Console.WriteLine("Hello, World!");
+           }
+       }
+    }
+    ```
+    - [ ] В начале файла доба
 ## FAQ
 ### Как выполнить SQL запрос
 Сверху выбрать нажать на кнопку SQL, 
